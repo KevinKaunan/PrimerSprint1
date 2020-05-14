@@ -1,6 +1,9 @@
 package com.example.primersprint;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -26,5 +29,14 @@ public class MenuActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
+
+
+    public void irAperfil(View view) {
+        Intent perfil = new Intent(this, activity_Perfil.class);
+        startActivity(perfil);
+
+
+    }
+
 
 }

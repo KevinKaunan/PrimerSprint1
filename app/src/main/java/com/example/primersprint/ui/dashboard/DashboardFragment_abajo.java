@@ -1,4 +1,4 @@
-package com.example.primersprint.ui.notifications;
+package com.example.primersprint.ui.dashboard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.primersprint.R;
 
-public class NotificationsFragment extends Fragment {
+public class DashboardFragment_abajo extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private DashboardViewModel_abajo dashboardViewModelAbajo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications_abajo, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        dashboardViewModelAbajo =
+                ViewModelProviders.of(this).get(DashboardViewModel_abajo.class);
+        View root = inflater.inflate(R.layout.fragment_dashboard_abajo, container, false);
+        final TextView textView = root.findViewById(R.id.text_dashboard);
+        dashboardViewModelAbajo.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
