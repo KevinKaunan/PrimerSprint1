@@ -1,0 +1,2 @@
+rootProject.name='PrimerSprint'
+include ':app'
