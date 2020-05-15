@@ -6,8 +6,8 @@
     <string name="title_activity__perfil">activity_Perfil</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">GeoPics®</string>
+    <string name="nav_header_subtitle">2020</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Opciones</string>
     <string name="menu_home">Editar perfil</string>
