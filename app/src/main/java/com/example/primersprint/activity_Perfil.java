@@ -1,5 +1,6 @@
 package com.example.primersprint;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -52,4 +53,11 @@ public class activity_Perfil extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    public void cerrarSesion(View view){
+        Intent cerrarSes = new Intent(this, login.class);
+        startActivity(cerrarSes);
+    }
+
+
 }
