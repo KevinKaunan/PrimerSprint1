@@ -2,6 +2,7 @@ package com.example.primersprint;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
@@ -9,6 +10,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,7 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class activity_Perfil extends AppCompatActivity {
+public class activity_Perfil extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -38,6 +41,7 @@ public class activity_Perfil extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        setNavigationViewListener();
     }
 
     @Override
@@ -53,11 +57,28 @@ public class activity_Perfil extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
+/*
     public void cerrarSesion(View view){
         Intent cerrarSes = new Intent(this, login.class);
         startActivity(cerrarSes);
     }
 
-
+ */
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            DrawerLayout mDrawerLayout= findViewById(R.id.drawer_layout);
+            switch (item.getItemId()) {
+                case R.id.nav_gallery: {
+                    Intent cerrarSes = new Intent(this, login.class);
+                    startActivity(cerrarSes);
+                    break;
+                }
+            }
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+    }
+    private void setNavigationViewListener() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 }
