@@ -57,13 +57,9 @@ public class activity_Perfil extends AppCompatActivity implements NavigationView
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-/*
-    public void cerrarSesion(View view){
-        Intent cerrarSes = new Intent(this, login.class);
-        startActivity(cerrarSes);
-    }
 
- */
+// Métodos que hacen funcionar el botón cerrar sesión del navigation drawer.
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             DrawerLayout mDrawerLayout= findViewById(R.id.drawer_layout);
