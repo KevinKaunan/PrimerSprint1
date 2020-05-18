@@ -31,15 +31,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation_abajo" />
 
-    <Button
-        android:id="@+id/button"
-        android:onClick="irAperfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ir al perfil"
-        app:layout_constraintBottom_toTopOf="@+id/nav_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

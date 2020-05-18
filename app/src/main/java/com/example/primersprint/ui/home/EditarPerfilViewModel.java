@@ -1,16 +1,16 @@
-package com.example.primersprint.ui.dashboard;
+package com.example.primersprint.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel_abajo extends ViewModel {
+public class EditarPerfilViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DashboardViewModel_abajo() {
+    public EditarPerfilViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("Panatlla principal del perfil.");
     }
 
     public LiveData<String> getText() {

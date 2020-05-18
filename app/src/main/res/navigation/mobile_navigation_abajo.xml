@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_home_abajo" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.primersprint.ui.dashboard.DashboardFragment_abajo"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard_abajo" />
-
-    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.primersprint.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"

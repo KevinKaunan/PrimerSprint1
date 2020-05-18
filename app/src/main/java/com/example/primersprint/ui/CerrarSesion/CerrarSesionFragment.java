@@ -1,4 +1,4 @@
-package com.example.primersprint.ui.dashboard;
+package com.example.primersprint.ui.CerrarSesion;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.primersprint.R;
 
-public class DashboardFragment_abajo extends Fragment {
+public class CerrarSesionFragment extends Fragment {
 
-    private DashboardViewModel_abajo dashboardViewModelAbajo;
+    private CerrarSesionViewModel cerrarSesionViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModelAbajo =
-                ViewModelProviders.of(this).get(DashboardViewModel_abajo.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard_abajo, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModelAbajo.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        cerrarSesionViewModel =
+                ViewModelProviders.of(this).get(CerrarSesionViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        final TextView textView = root.findViewById(R.id.text_gallery);
+        cerrarSesionViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
