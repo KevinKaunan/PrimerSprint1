@@ -40,7 +40,8 @@
         android:layout_marginEnd="100dp"
         android:layout_marginRight="10dp"
         android:background="#F6BD1616"
-        android:text="Registrarse" />
+        android:text="Registrarse"
+        android:onClick="irAregistro"/>
 
     <EditText
         android:id="@+id/editUsu"

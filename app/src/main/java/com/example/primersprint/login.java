@@ -17,5 +17,10 @@ public class login extends AppCompatActivity {
         Intent i = new Intent(login.this, MenuActivity.class);
         startActivity(i);
     }
+    public void irAregistro(View view){
+        Intent i = new Intent(login.this, registrar.class);
+        startActivity(i);
+    }
+
 
 }
