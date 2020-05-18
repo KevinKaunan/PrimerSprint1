@@ -29,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        navView.setOnNavigationItemSelectedListener((item) -> {
+            navView.setOnNavigationItemSelectedListener((item) -> {
             if (item.getItemId() == R.id.navigation_perfil){
                 Intent abrirPerfil = new Intent(this, activity_Perfil.class);
                 startActivity(abrirPerfil);
