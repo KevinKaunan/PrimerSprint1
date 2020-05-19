@@ -1,7 +1,12 @@
 package com.example.primersprint;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +19,10 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,6 +30,8 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MenuActivity extends AppCompatActivity {
     GridView gridView;
+    ImageView imageView;
+
     String[] fruitNames = {"Apple","Orange","strawberry","Melon","Kiwi","Banana"};
     int[] fruitImages = {R.drawable.apple,R.drawable.oranges,R.drawable.strawberry,R.drawable.watermelon,R.drawable.kiwi,R.drawable.banana};
     @Override
@@ -29,6 +39,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
+        imageView = findViewById(R.id.imageviewCamara);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -37,13 +48,30 @@ public class MenuActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        if(ContextCompat.checkSelfPermission(MenuActivity.this, Manifest.permission.CAMERA )!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MenuActivity.this, new String[]{
+                Manifest.permission.CAMERA
+            },  100 );
+        }
+
             navView.setOnNavigationItemSelectedListener((item) -> {
             if (item.getItemId() == R.id.navigation_perfil){
                 Intent abrirPerfil = new Intent(this, activity_Perfil.class);
                 startActivity(abrirPerfil);
             }
+            if (item.getItemId() == R.id.navigation_home){
+//                Intent abrirPerfil = new Intent(this, activity_Perfil.class);
+//                startActivity(abrirPerfil);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 100);
+            }
+
             return false;
         });
+
+
+
 
         gridView = findViewById(R.id.gridview);
 
@@ -61,6 +89,17 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100){
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(bitmap);
+        }
     }
 
     private class CustomAdapter extends BaseAdapter {
@@ -85,10 +124,10 @@ public class MenuActivity extends AppCompatActivity {
             View view1 = getLayoutInflater().inflate(R.layout.row_data, null);
 
             TextView name= view1.findViewById(R.id.fruits);
-            ImageView iamge = view1.findViewById(R.id.images);
+            ImageView image = view1.findViewById(R.id.images);
 
             name.setText(fruitNames[position]);
-            iamge.setImageResource(fruitImages[position]);
+            image.setImageResource(fruitImages[position]);
 
 
             return view1;
