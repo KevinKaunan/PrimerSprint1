@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
@@ -40,59 +41,53 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         imageView = findViewById(R.id.imageviewCamara);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_notifications)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
+// Comprueba el permiso de la cámara en el dispositivo.
         if(ContextCompat.checkSelfPermission(MenuActivity.this, Manifest.permission.CAMERA )!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MenuActivity.this, new String[]{
                 Manifest.permission.CAMERA
             },  100 );
         }
-
+// En esta expresión lambda se verifica cual de las id's ha sido pulsada, si la cámara o el perfil, para así hacer una acción u otra.
             navView.setOnNavigationItemSelectedListener((item) -> {
             if (item.getItemId() == R.id.navigation_perfil){
                 Intent abrirPerfil = new Intent(this, activity_Perfil.class);
                 startActivity(abrirPerfil);
             }
+
             if (item.getItemId() == R.id.navigation_home){
-//                Intent abrirPerfil = new Intent(this, activity_Perfil.class);
-//                startActivity(abrirPerfil);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 100);
+
             }
 
             return false;
         });
 
-
-
-
         gridView = findViewById(R.id.gridview);
 
         CustomAdapter customAdapter = new CustomAdapter();
         gridView.setAdapter(customAdapter);
-
+// Permite visualizar las fotos al clicar en ellas.
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), GridItemActivity.class);
                 intent.putExtra("name", fruitNames[position]);
-                intent.putExtra("imnage", fruitImages[position]);
+                intent.putExtra("image", fruitImages[position]);
                 startActivity(intent);
 
             }
         });
-
-
-
+        getSupportActionBar().setTitle("GeoPics");
     }
-
+// Al sacar una foto la visualiza.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -101,7 +96,7 @@ public class MenuActivity extends AppCompatActivity {
             imageView.setImageBitmap(bitmap);
         }
     }
-
+// Adaptador personalizado para mostrar las fotos en el gridview
     private class CustomAdapter extends BaseAdapter {
 
         @Override

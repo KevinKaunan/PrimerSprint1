@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.primersprint">
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,22 +11,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".registrar"></activity>
+        <activity android:name=".ui.EditarPerfilActivity"></activity>
+        <activity android:name=".InfoActivity" />
+        <activity android:name=".registrar" />
         <activity android:name=".login">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GridItemActivity"/>
         <activity
             android:name=".activity_Perfil"
             android:label="@string/title_activity__perfil"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activityPerfil" />
+
         <activity
             android:name=".MenuActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

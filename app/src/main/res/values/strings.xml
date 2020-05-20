@@ -15,4 +15,10 @@
     <string name="menu_perfil">Perfil</string>
 
     <string name="home_second">Home Second</string>
+
+
+    <string name="text_info">GeoPics, la aplicación de localización de fotos más novedosa del mundo. Creada por Andrés Hermoso de Mendoza,
+        Kevin Klein y Ander Pascal. \n \n \n GeoPics® \n 2020 \n \n \n \n Versión 0.1</string>
+    <string name="volver_al_perfil">Volver al perfil</string>
+    <string name="volverAlMenu">Volver al menú</string>
 </resources>

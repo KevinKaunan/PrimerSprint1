@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.primersprint.ui.EditarPerfilActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -42,6 +43,8 @@ public class activity_Perfil extends AppCompatActivity implements NavigationView
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         setNavigationViewListener();
+
+        getSupportActionBar().setTitle("Perfil");
     }
 
     @Override
@@ -58,7 +61,7 @@ public class activity_Perfil extends AppCompatActivity implements NavigationView
                 || super.onSupportNavigateUp();
     }
 
-// Métodos que hacen funcionar el botón cerrar sesión del navigation drawer.
+// Métodos que hacen funcionar los diferentes botones del navigation drawer.
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -69,6 +72,16 @@ public class activity_Perfil extends AppCompatActivity implements NavigationView
                     startActivity(cerrarSes);
                     break;
                 }
+                case R.id.nav_slideshow: {
+                    Intent info = new Intent(this, InfoActivity.class);
+                    startActivity(info);
+                    break;
+                }
+                case R.id.nav_home: {
+                    Intent editarPerfil = new Intent(this, EditarPerfilActivity.class);
+                    startActivity(editarPerfil);
+                    break;
+                }
             }
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
@@ -77,4 +90,9 @@ public class activity_Perfil extends AppCompatActivity implements NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-}
+
+    public void irAmenu(View view){
+        Intent menu = new Intent(this, MenuActivity.class);
+        startActivity(menu);
+
+    }}
