@@ -48,7 +48,7 @@ public class MenuActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
+// Comprueba el permiso de la cámara en el dispositivo.
         if(ContextCompat.checkSelfPermission(MenuActivity.this, Manifest.permission.CAMERA )!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MenuActivity.this, new String[]{
                 Manifest.permission.CAMERA
@@ -74,20 +74,20 @@ public class MenuActivity extends AppCompatActivity {
 
         CustomAdapter customAdapter = new CustomAdapter();
         gridView.setAdapter(customAdapter);
-
+// Permite visualizar las fotos al clicar en ellas.
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), GridItemActivity.class);
                 intent.putExtra("name", fruitNames[position]);
-                intent.putExtra("imnage", fruitImages[position]);
+                intent.putExtra("image", fruitImages[position]);
                 startActivity(intent);
 
             }
         });
         getSupportActionBar().setTitle("GeoPics");
     }
-
+// Al sacar una foto la visualiza.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -96,7 +96,7 @@ public class MenuActivity extends AppCompatActivity {
             imageView.setImageBitmap(bitmap);
         }
     }
-
+// Adaptador personalizado para mostrar las fotos en el gridview
     private class CustomAdapter extends BaseAdapter {
 
         @Override
