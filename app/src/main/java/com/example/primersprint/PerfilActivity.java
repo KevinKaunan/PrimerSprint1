@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.Menu;
 
 import com.example.primersprint.ui.EditarPerfilActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class activity_Perfil extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class PerfilActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -68,7 +66,7 @@ public class activity_Perfil extends AppCompatActivity implements NavigationView
             DrawerLayout mDrawerLayout= findViewById(R.id.drawer_layout);
             switch (item.getItemId()) {
                 case R.id.nav_gallery: {
-                    Intent cerrarSes = new Intent(this, login.class);
+                    Intent cerrarSes = new Intent(this, LoginActivity.class);
                     startActivity(cerrarSes);
                     break;
                 }
@@ -92,7 +90,7 @@ public class activity_Perfil extends AppCompatActivity implements NavigationView
     }
 
     public void irAmenu(View view){
-        Intent menu = new Intent(this, MenuActivity.class);
+        Intent menu = new Intent(this, MainActivity.class);
         startActivity(menu);
 
     }}

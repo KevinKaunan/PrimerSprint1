@@ -21,4 +21,7 @@
         Kevin Klein y Ander Pascal. \n \n \n GeoPics® \n 2020 \n \n \n \n Versión 0.1</string>
     <string name="volver_al_perfil">Volver al perfil</string>
     <string name="volverAlMenu">Volver al menú</string>
+    <string name="textviewdescripcion">Aquí va tu descripción</string>
+    <string name="buttonenviar">Enviar</string>
+    <string name="buttoncamara">Cámara</string>
 </resources>

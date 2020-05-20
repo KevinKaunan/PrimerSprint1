@@ -1,14 +1,11 @@
 package com.example.primersprint;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,7 +16,6 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -29,9 +25,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class MenuActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     GridView gridView;
-    ImageView imageView;
+
 
     String[] fruitNames = {"Apple","Orange","strawberry","Melon","Kiwi","Banana"};
     int[] fruitImages = {R.drawable.apple,R.drawable.oranges,R.drawable.strawberry,R.drawable.watermelon,R.drawable.kiwi,R.drawable.banana};
@@ -40,7 +36,6 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        imageView = findViewById(R.id.imageviewCamara);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_notifications)
@@ -48,22 +43,19 @@ public class MenuActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-// Comprueba el permiso de la cámara en el dispositivo.
-        if(ContextCompat.checkSelfPermission(MenuActivity.this, Manifest.permission.CAMERA )!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(MenuActivity.this, new String[]{
-                Manifest.permission.CAMERA
-            },  100 );
-        }
+
+
+
 // En esta expresión lambda se verifica cual de las id's ha sido pulsada, si la cámara o el perfil, para así hacer una acción u otra.
             navView.setOnNavigationItemSelectedListener((item) -> {
             if (item.getItemId() == R.id.navigation_perfil){
-                Intent abrirPerfil = new Intent(this, activity_Perfil.class);
+                Intent abrirPerfil = new Intent(this, PerfilActivity.class);
                 startActivity(abrirPerfil);
             }
 
             if (item.getItemId() == R.id.navigation_home){
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 100);
+                Intent abrirActivityCamara = new Intent(this, CamaraActivity.class);
+                startActivity(abrirActivityCamara);
 
             }
 
@@ -87,15 +79,7 @@ public class MenuActivity extends AppCompatActivity {
         });
         getSupportActionBar().setTitle("GeoPics");
     }
-// Al sacar una foto la visualiza.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 100){
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(bitmap);
-        }
-    }
+
 // Adaptador personalizado para mostrar las fotos en el gridview
     private class CustomAdapter extends BaseAdapter {
 
@@ -116,7 +100,7 @@ public class MenuActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view1 = getLayoutInflater().inflate(R.layout.row_data, null);
+            View view1 = getLayoutInflater().inflate(R.layout.datos_columna_grid, null);
 
             TextView name= view1.findViewById(R.id.fruits);
             ImageView image = view1.findViewById(R.id.images);

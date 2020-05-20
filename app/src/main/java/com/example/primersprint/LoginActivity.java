@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,11 +14,11 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
     public void irAperfil(View view){
-        Intent i = new Intent(login.this, MenuActivity.class);
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
     }
     public void irAregistro(View view){
-        Intent i = new Intent(login.this, registrar.class);
+        Intent i = new Intent(LoginActivity.this, RegistrarActivity.class);
         startActivity(i);
     }
 

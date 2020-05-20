@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class registrar extends AppCompatActivity {
+public class RegistrarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +14,7 @@ public class registrar extends AppCompatActivity {
         setContentView(R.layout.activity_registrar);
     }
     public void inicioSesion(View view){
-        Intent i = new Intent(registrar.this, login.class);
+        Intent i = new Intent(RegistrarActivity.this, LoginActivity.class);
         startActivity(i);
     }
 }
