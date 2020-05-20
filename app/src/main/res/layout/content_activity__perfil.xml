@@ -64,4 +64,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </androidx.gridlayout.widget.GridLayout>
+
+    <Button
+        android:id="@+id/button4"
+        android:onClick="irAmenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="@string/volverAlMenu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

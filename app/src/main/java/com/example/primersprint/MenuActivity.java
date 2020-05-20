@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
@@ -40,8 +41,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         imageView = findViewById(R.id.imageviewCamara);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_notifications)
                 .build();
@@ -54,24 +54,21 @@ public class MenuActivity extends AppCompatActivity {
                 Manifest.permission.CAMERA
             },  100 );
         }
-
+// En esta expresión lambda se verifica cual de las id's ha sido pulsada, si la cámara o el perfil, para así hacer una acción u otra.
             navView.setOnNavigationItemSelectedListener((item) -> {
             if (item.getItemId() == R.id.navigation_perfil){
                 Intent abrirPerfil = new Intent(this, activity_Perfil.class);
                 startActivity(abrirPerfil);
             }
+
             if (item.getItemId() == R.id.navigation_home){
-//                Intent abrirPerfil = new Intent(this, activity_Perfil.class);
-//                startActivity(abrirPerfil);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 100);
+
             }
 
             return false;
         });
-
-
-
 
         gridView = findViewById(R.id.gridview);
 
@@ -88,9 +85,7 @@ public class MenuActivity extends AppCompatActivity {
 
             }
         });
-
-
-
+        getSupportActionBar().setTitle("GeoPics");
     }
 
     @Override
