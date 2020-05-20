@@ -18,17 +18,23 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:layout_width="176dp"
         android:layout_height="wrap_content"
 
         android:layout_below="@+id/editNombreUsu"
+        android:layout_alignStart="@+id/view"
+        android:layout_alignLeft="@+id/view"
         android:layout_alignRight="@+id/view"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="63dp"
+        android:layout_marginLeft="63dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginRight="10dp"
-        android:background="#F616BDAC"
+        android:layout_marginRight="61dp"
+        android:background="@drawable/estilo_botones"
+
         android:onClick="inicioSesion"
-        android:text="Registrarse" />
+        android:text="Registrarse"
+        android:textColor="@drawable/color_botones"/>
 
     <EditText
         android:id="@+id/editCorreo"
@@ -70,4 +76,51 @@
         android:layout_marginTop="65dp"
         android:ems="10"
         android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/view"
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignTop="@+id/view"
+        android:layout_alignEnd="@+id/view"
+        android:layout_alignRight="@+id/view"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="191dp"
+        android:layout_marginRight="191dp"
+        android:text="Correo"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="141dp"
+        android:layout_height="48dp"
+        android:layout_alignStart="@+id/view"
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignTop="@+id/view"
+        android:layout_alignEnd="@+id/view"
+        android:layout_alignRight="@+id/view"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginEnd="109dp"
+        android:layout_marginRight="109dp"
+        android:text="Nombre de usuario"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/view"
+        android:layout_alignLeft="@+id/view"
+        android:layout_alignTop="@+id/view"
+        android:layout_marginStart="51dp"
+        android:layout_marginLeft="51dp"
+        android:layout_marginTop="243dp"
+        android:text="Contrraseña"
+        android:textColor="#FAFAFA" />
 </RelativeLayout>
