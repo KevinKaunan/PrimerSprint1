@@ -23,14 +23,14 @@
         android:id="@+id/imageView2"
         android:layout_width="132dp"
         android:layout_height="125dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="50dp"
         android:background="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/usericon"
-        tools:srcCompat="@drawable/usericon" />
+        app:srcCompat="@drawable/usericon2"
+        tools:srcCompat="@drawable/usericon2" />
 
     <TextView
         android:id="@+id/textView2"
