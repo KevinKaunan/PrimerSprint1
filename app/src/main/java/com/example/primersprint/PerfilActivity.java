@@ -1,16 +1,24 @@
 package com.example.primersprint;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.primersprint.ui.EditarPerfilActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
+import androidx.gridlayout.widget.GridLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,6 +30,9 @@ import androidx.appcompat.widget.Toolbar;
 public class PerfilActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private AppBarConfiguration mAppBarConfiguration;
+    private GridView gridAlbumes;
+
+    String[] fruitNames = {"Default"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +54,13 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
         setNavigationViewListener();
 
         getSupportActionBar().setTitle("Perfil");
+
+        gridAlbumes = findViewById(R.id.gridAlbumes);
+
+        ImageButton imageButton = new ImageButton(this);
+        imageButton.setImageResource(R.drawable.ic_menu_gallery);
+
+
     }
 
     @Override
@@ -93,4 +111,50 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
         Intent menu = new Intent(this, MainActivity.class);
         startActivity(menu);
 
-    }}
+    }
+    public void crearAlbum(View view){
+        ImageButton imagebutton = new ImageButton(this);
+        imagebutton.setImageResource(R.drawable.ic_menu_gallery);
+        imagebutton.setOnClickListener(this::irA_album);
+
+    }
+
+    public void irA_album(View view){
+        Intent album = new Intent(this, AlbumesActivity.class);
+        startActivity(album);
+    }
+
+    // Adaptador personalizado para mostrar las fotos en el gridview
+//    private class CustomAdapter extends BaseAdapter {
+//
+//        @Override
+//        public int getCount() {
+//            return fruitImages.length;
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return null;
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return 0;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            View view1 = getLayoutInflater().inflate(R.layout.datos_columna_grid, null);
+//
+//            TextView name= view1.findViewById(R.id.fruits);
+//            ImageView image = view1.findViewById(R.id.images);
+//
+//            name.setText(fruitNames[position]);
+//            image.setImageResource(fruitImages[position]);
+//
+//
+//            return view1;
+//        }
+//    }
+
+}
