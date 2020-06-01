@@ -1,7 +1,8 @@
 package com.example.primersprint;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,19 +12,14 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
-import android.widget.TextView;
 
 import com.example.primersprint.ui.EditarPerfilActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
-import androidx.gridlayout.widget.GridLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -36,7 +32,7 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
 
     private AppBarConfiguration mAppBarConfiguration;
     private TableLayout tableAlbumes;
-    private int i = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,60 +113,36 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
 
     public void crearAlbum(View view){
 
-
         Button button = new Button(this);
-        EditText nombreAlbum = findViewById(R.id.plain_text_input);
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    EditText nombreAlbum = findViewById(R.id.plain_text_input);
+                    ViewGroup.LayoutParams cp = findViewById(R.id.buttonDefault).getLayoutParams();
+                    button.setText(nombreAlbum.getText());
+                    tableAlbumes.addView(button, cp);
+                    button.setOnClickListener(PerfilActivity.this::irA_album);
+                    break;
 
-        ViewGroup.LayoutParams cp = findViewById(R.id.buttonDefault).getLayoutParams();
+                case DialogInterface.BUTTON_NEGATIVE:
 
-        button.setText(nombreAlbum.getText());
-        tableAlbumes.addView(button, i, cp);
-        button.setOnClickListener(this::irA_album);
+                    break;
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Quieres añadir un nuevo álbum? (Para borrar un álbum haz un click largo en el álbum que desees borrar.)").setPositiveButton("Sí", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+
         button.setOnLongClickListener(v -> {
             tableAlbumes.removeView(button);
-            i--;
             return true;
         });
-        i++;
+
     }
 
     public void irA_album(View view){
         Intent album = new Intent(this, AlbumesActivity.class);
         startActivity(album);
     }
-
-
-    // Adaptador personalizado para mostrar las fotos en el gridview
-//    private class CustomAdapter extends BaseAdapter {
-//
-//        @Override
-//        public int getCount() {
-//            return fruitImages.length;
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return null;
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return 0;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            View view1 = getLayoutInflater().inflate(R.layout.datos_columna_grid, null);
-//
-//            TextView name= view1.findViewById(R.id.fruits);
-//            ImageView image = view1.findViewById(R.id.images);
-//
-//            name.setText(fruitNames[position]);
-//            image.setImageResource(fruitImages[position]);
-//
-//
-//            return view1;
-//        }
-//    }
 
 }
