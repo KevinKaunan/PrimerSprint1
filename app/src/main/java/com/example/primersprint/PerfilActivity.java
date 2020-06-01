@@ -8,16 +8,20 @@ import android.view.View;
 import android.view.Menu;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.primersprint.ui.EditarPerfilActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.gridlayout.widget.GridLayout;
 import androidx.navigation.NavController;
@@ -31,9 +35,8 @@ import androidx.appcompat.widget.Toolbar;
 public class PerfilActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private AppBarConfiguration mAppBarConfiguration;
-    private GridLayout gridAlbumes;
-
-    String[] fruitNames = {"Default"};
+    private TableLayout tableAlbumes;
+    private int i = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,7 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
 
         getSupportActionBar().setTitle("Perfil");
 
-        gridAlbumes = findViewById(R.id.gridAlbumes);
+        tableAlbumes = findViewById(R.id.tableLayout);
 
     }
 
@@ -108,28 +111,34 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
         Intent menu = new Intent(this, MainActivity.class);
         startActivity(menu);
 
-
-        //Métodos de generación de álbumes.
     }
+
+    //Métodos de generación de álbumes.
+
     public void crearAlbum(View view){
 
-        ImageButton imagebutton = new ImageButton(this);
 
-//        ViewGroup.LayoutParams params = imagebutton.getLayoutParams();
-//        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-//        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-//        imagebutton.setLayoutParams(params);
+        Button button = new Button(this);
+        EditText nombreAlbum = findViewById(R.id.plain_text_input);
 
-        imagebutton.setImageResource(R.drawable.ic_menu_gallery);
-        gridAlbumes.addView(imagebutton);
-        imagebutton.setOnClickListener(this::irA_album);
-//
+        ViewGroup.LayoutParams cp = findViewById(R.id.buttonDefault).getLayoutParams();
+
+        button.setText(nombreAlbum.getText());
+        tableAlbumes.addView(button, i, cp);
+        button.setOnClickListener(this::irA_album);
+        button.setOnLongClickListener(v -> {
+            tableAlbumes.removeView(button);
+            i--;
+            return true;
+        });
+        i++;
     }
 
     public void irA_album(View view){
         Intent album = new Intent(this, AlbumesActivity.class);
         startActivity(album);
     }
+
 
     // Adaptador personalizado para mostrar las fotos en el gridview
 //    private class CustomAdapter extends BaseAdapter {
