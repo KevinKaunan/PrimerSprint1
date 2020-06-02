@@ -114,7 +114,7 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
     public void crearAlbum(View view){
 
         Button button = new Button(this);
-        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+        DialogInterface.OnClickListener dialogClickListener1 = (dialog, which) -> {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
                     EditText nombreAlbum = findViewById(R.id.plain_text_input);
@@ -129,12 +129,24 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
                     break;
             }
         };
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Quieres añadir un nuevo álbum? (Para borrar un álbum haz un click largo en el álbum que desees borrar.)").setPositiveButton("Sí", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+        builder.setMessage("¿Quieres añadir un nuevo álbum? (Para borrar un álbum haz un click largo en el álbum que desees borrar.)").setPositiveButton("Sí", dialogClickListener1)
+                .setNegativeButton("No", dialogClickListener1).show();
 
         button.setOnLongClickListener(v -> {
-            tableAlbumes.removeView(button);
+            DialogInterface.OnClickListener dialogClickListener2 = (dialog, which) -> {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        tableAlbumes.removeView(button);
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            };
+            AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+            builder2.setMessage("¿Quieres borrar este álbum?").setPositiveButton("Sí", dialogClickListener2)
+                    .setNegativeButton("No", dialogClickListener1).show();
             return true;
         });
 
