@@ -8,10 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.TableLayout;
 
 import com.example.primersprint.ui.EditarPerfilActivity;
@@ -133,6 +131,8 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("¿Quieres añadir un nuevo álbum? (Para borrar un álbum haz un click largo en el álbum que desees borrar.)").setPositiveButton("Sí", dialogClickListener1)
                 .setNegativeButton("No", dialogClickListener1).show();
+
+        //Acción que hará el botón al hacer un click largo en el.
 
         button.setOnLongClickListener(v -> {
             DialogInterface.OnClickListener dialogClickListener2 = (dialog, which) -> {
