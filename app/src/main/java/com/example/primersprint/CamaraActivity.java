@@ -15,6 +15,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import com.example.primersprint.ui.MyApiAdapter;
+import com.example.primersprint.ui.response.Geoname;
+import com.example.primersprint.ui.response.Geonames;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,6 +80,7 @@ public class CamaraActivity extends AppCompatActivity {
             //Localización de la foto, una vez que esta ha sido capturada.
             localizacion();
             registrarLocalizacion();
+            localizar();
         }
     }
 
@@ -83,6 +102,8 @@ public class CamaraActivity extends AppCompatActivity {
         longitud = findViewById(R.id.txtLongitud);
         ubicacion = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location loc = ubicacion.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+
         if (loc != null) {
             latitud.setText("Ubicación no encontrada");
             longitud.setText("Ubicación no encontrada");
@@ -98,13 +119,60 @@ public class CamaraActivity extends AppCompatActivity {
         }
         ubicacion.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, new miLocalizacionListener());
     }
+    public void localizar() {
+
+
+//        accionamos la peticion y guardamos la respuesta con el tipo parseado de json
+//        cambair a <Geonames>
+
+        String user = "andreshdm";
+        Call<Geonames> call = MyApiAdapter.getApiService().getCiudad(latitud.getText().toString(),longitud.getText().toString(),user);
+        call.enqueue(new Callback<Geonames>(){    @Override
+        public void onResponse(Call<Geonames> call, Response<Geonames> response) {
+            if(response.isSuccessful()){
+                Geonames geonames = response.body();
+                List<Geoname> lista = geonames.getGeonames();
+                String concat = "";
+                for(int i = 0; i<lista.size();i++) {
+
+                    concat += lista.get(i).getCountryName() +"\n";
+                    concat += lista.get(i).getToponymName() +"\n";
+                    concat += lista.get(i).getPopulation() +"\n";
+                    concat += lista.get(i).getDistance() +"\n";
+
+                    //latitud.append(concat);
+                }
+
+
+
+                Log.d("onResponse ciudad",geonames.toString());
+//                    for(Geonames geo: lista){
+//                        String content  ="";
+//                        content += "Pais" + geo.getCountryName() + "\n";
+//                        content += "Zona" + geo.getToponymName();
+//                        locText.append(content);
+//                    }
+                Log.d("onResponse ciudad","");
+            }
+            if(!response.isSuccessful()) {
+                latitud.setText("codigo" + response.code());
+                Log.d("onResponse error","");
+            }
+        }
+
+            @Override
+            public void onFailure(Call<Geonames> call, Throwable t) {
+                Log.d("onFailure ciudad","aqui ciudad.tostring");
+            }});
+    }
+
 
     private class miLocalizacionListener implements LocationListener {
 
         @Override
         public void onLocationChanged(Location location) {
-            String lat = "Mi latitud es: " + location.getLatitude();
-            String lon = "Mi longitud es: " + location.getLongitude();
+            String lat = String.valueOf(location.getLatitude());
+            String lon = String.valueOf(location.getLongitude());
             latitud.setText(lat);
             longitud.setText(lon);
         }
