@@ -63,6 +63,7 @@ public class CamaraActivity extends AppCompatActivity {
                     Manifest.permission.CAMERA
             },  100 );
         }
+
         buttonAbrirCamara.setOnClickListener(v -> {
             Intent abrirCamara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(abrirCamara, 100);
@@ -92,12 +93,7 @@ public class CamaraActivity extends AppCompatActivity {
     //Métodos para gestionar la localización.
 
     private void localizacion() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{
-                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
-            }, 1000);
-        }
+
         latitud = findViewById(R.id.txtLatitud);
         longitud = findViewById(R.id.txtLongitud);
         ubicacion = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -113,6 +109,7 @@ public class CamaraActivity extends AppCompatActivity {
 
     private void registrarLocalizacion() {
         ubicacion = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
