@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -28,7 +30,6 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
     GridView gridView;
 
-
     String[] fruitNames = {"Apple","Orange","strawberry","Melon","Kiwi","Banana"};
     int[] fruitImages = {R.drawable.apple,R.drawable.oranges,R.drawable.strawberry,R.drawable.watermelon,R.drawable.kiwi,R.drawable.banana};
     @Override
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
             }, 1000);
         }
+
 
 // En esta expresión lambda se verifica cual de las id's ha sido pulsada, si la cámara o el perfil, para así hacer una acción u otra.
 

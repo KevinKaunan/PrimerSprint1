@@ -48,7 +48,9 @@ public class CamaraActivity extends AppCompatActivity {
     private LocationManager ubicacion;
     TextView latitud;
     TextView longitud;
-
+    TextView direccion;
+    String lati ;
+    String longi ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,7 @@ public class CamaraActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageviewCamara);
         buttonAbrirCamara = findViewById(R.id.buttonCamara);
         imageView.setImageResource(R.drawable.ic_image_black_24dp);
+        direccion = findViewById(R.id.txtDireccion);
 
         // Comprueba el permiso de la cámara en el dispositivo.
         if(ContextCompat.checkSelfPermission(CamaraActivity.this, Manifest.permission.CAMERA )!= PackageManager.PERMISSION_GRANTED){
@@ -81,7 +84,7 @@ public class CamaraActivity extends AppCompatActivity {
             //Localización de la foto, una vez que esta ha sido capturada.
             localizacion();
             registrarLocalizacion();
-            localizar();
+
         }
     }
 
@@ -99,7 +102,6 @@ public class CamaraActivity extends AppCompatActivity {
         ubicacion = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location loc = ubicacion.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-
         if (loc != null) {
             latitud.setText("Ubicación no encontrada");
             longitud.setText("Ubicación no encontrada");
@@ -115,6 +117,7 @@ public class CamaraActivity extends AppCompatActivity {
             return;
         }
         ubicacion.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, new miLocalizacionListener());
+
     }
     public void localizar() {
 
@@ -123,7 +126,8 @@ public class CamaraActivity extends AppCompatActivity {
 //        cambair a <Geonames>
 
         String user = "andreshdm";
-        Call<Geonames> call = MyApiAdapter.getApiService().getCiudad(latitud.getText().toString(),longitud.getText().toString(),user);
+
+        Call<Geonames> call = MyApiAdapter.getApiService().getCiudad(lati,longi,user);
         call.enqueue(new Callback<Geonames>(){    @Override
         public void onResponse(Call<Geonames> call, Response<Geonames> response) {
             if(response.isSuccessful()){
@@ -137,7 +141,7 @@ public class CamaraActivity extends AppCompatActivity {
                     concat += lista.get(i).getPopulation() +"\n";
                     concat += lista.get(i).getDistance() +"\n";
 
-                    //latitud.append(concat);
+                    direccion.append(concat);
                 }
 
 
@@ -168,13 +172,16 @@ public class CamaraActivity extends AppCompatActivity {
 
         @Override
         public void onLocationChanged(Location location) {
-            String lat = String.valueOf(location.getLatitude());
-            String lon = String.valueOf(location.getLongitude());
-            latitud.setText(lat);
-            longitud.setText(lon);
+            direccion.setText("");
+            latitud.setText(String.valueOf(location.getLatitude()));
+            longitud.setText(String.valueOf(location.getLongitude()));
+            lati = latitud.getText().toString();
+            longi = longitud.getText().toString();
+            localizar();
         }
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
+
         }
         @Override
         public void onProviderEnabled(String provider) {
