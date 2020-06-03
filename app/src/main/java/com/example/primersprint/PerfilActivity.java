@@ -51,7 +51,7 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
         NavigationUI.setupWithNavController(navigationView, navController);
         setNavigationViewListener();
 
-        getSupportActionBar().setTitle("Perfil");
+        getSupportActionBar().setTitle("Perfil (Desliza para ver el submenú)");
 
         tableAlbumes = findViewById(R.id.tableLayout);
 
