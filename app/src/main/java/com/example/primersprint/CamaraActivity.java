@@ -15,15 +15,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+
 import com.example.primersprint.ui.MyApiAdapter;
 import com.example.primersprint.ui.response.Geoname;
 import com.example.primersprint.ui.response.Geonames;
@@ -141,7 +138,8 @@ public class CamaraActivity extends AppCompatActivity {
                     concat += lista.get(i).getPopulation() +"\n";
                     concat += lista.get(i).getDistance() +"\n";
 
-                    direccion.append(concat);
+                    direccion.setText("");
+                    direccion.setText(concat);
                 }
 
 
