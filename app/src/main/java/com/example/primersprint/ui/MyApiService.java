@@ -15,7 +15,7 @@ public interface MyApiService {
     //2 parametro:"lng="+longuitud+"&"
     //3 dato:     "username=andreshdm"
     //lat=42.814948&lng=-1.639035&username=andreshdm
-    @GET("findNearbyPlaceNameJSON?")
+    @GET("findNearbyPlaceNameJSON")
     Call<Geonames> getCiudad(@Query("lat")String latitude, @Query("lng")String longitud, @Query("username")String usuario);
     //los datos json se parsean a instancia java de la clase Geonames
 }

@@ -125,9 +125,9 @@ public class CamaraActivity extends AppCompatActivity {
 //        accionamos la peticion y guardamos la respuesta con el tipo parseado de json
 //        cambair a <Geonames>
 
-        String user = "andreshdm";
 
-        Call<Geonames> call = MyApiAdapter.getApiService().getCiudad(lati,longi,user);
+
+        Call<Geonames> call = MyApiAdapter.getApiService().getCiudad(lati,longi,Constantes.API_USERNAME);
         call.enqueue(new Callback<Geonames>(){    @Override
         public void onResponse(Call<Geonames> call, Response<Geonames> response) {
             if(response.isSuccessful()){
