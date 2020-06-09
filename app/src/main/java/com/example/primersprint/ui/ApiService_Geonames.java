@@ -9,7 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface MyApiService {
+public interface ApiService_Geonames {
     //request particular
     //1 parametro:"lat="+latitude+"&"
     //2 parametro:"lng="+longuitud+"&"

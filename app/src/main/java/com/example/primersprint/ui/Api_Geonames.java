@@ -8,11 +8,11 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MyApiAdapter {
+public class Api_Geonames {
 
-    private static MyApiService API_SERVICE;
+    private static ApiService_Geonames API_SERVICE;
 
-    public static MyApiService getApiService() {
+    public static ApiService_Geonames getApiService() {
 
         // Creamos un interceptor y le indicamos el log level a usar
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -26,11 +26,11 @@ public class MyApiAdapter {
 
         if (API_SERVICE == null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constantes.API_BASEURL)
+                    .baseUrl(Constantes.API_GEONAMES_BASEURL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(httpClient.build()) // <-- usamos el log level
                     .build();
-            API_SERVICE = retrofit.create(MyApiService.class);
+            API_SERVICE = retrofit.create(ApiService_Geonames.class);
         }
 
         return API_SERVICE;

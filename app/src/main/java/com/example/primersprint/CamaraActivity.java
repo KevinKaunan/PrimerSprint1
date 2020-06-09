@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 
-import com.example.primersprint.ui.MyApiAdapter;
+import com.example.primersprint.ui.Api_Geonames;
 import com.example.primersprint.ui.response.Geoname;
 import com.example.primersprint.ui.response.Geonames;
 
@@ -32,7 +32,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -124,7 +123,7 @@ public class CamaraActivity extends AppCompatActivity {
 
 
 
-        Call<Geonames> call = MyApiAdapter.getApiService().getCiudad(lati,longi,Constantes.API_USERNAME);
+        Call<Geonames> call = Api_Geonames.getApiService().getCiudad(lati,longi,Constantes.API_USERNAME);
         call.enqueue(new Callback<Geonames>(){    @Override
         public void onResponse(Call<Geonames> call, Response<Geonames> response) {
             if(response.isSuccessful()){
