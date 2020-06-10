@@ -1,6 +1,7 @@
 package com.example.primersprint;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -8,14 +9,21 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.primersprint.ui.Api_Geopics;
+import com.example.primersprint.ui.response.Image;
+import com.example.primersprint.ui.response.PorDefecto;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -27,15 +35,28 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
     GridView gridView;
-
+    boolean datosRecogidos = true;
+    SearchView sv;
+    String rico="";
+    TextView name;
     String[] fruitNames = {"Apple","Orange","strawberry","Melon","Kiwi","Banana"};
     int[] fruitImages = {R.drawable.apple,R.drawable.oranges,R.drawable.strawberry,R.drawable.watermelon,R.drawable.kiwi,R.drawable.banana};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sv = findViewById(R.id.searchView);
+
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -88,6 +109,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setTitle("GeoPics");
+
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context,"APLICANDO FILTRO", duration);
+                toast.show();
+                rico = query;
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, "ESTAS CAMBIANDO TEXTO?", duration);
+                toast.show();
+                rico = newText;
+                return true;
+            }
+        });
     }
 
 // Adaptador personalizado para mostrar las fotos en el gridview
@@ -112,15 +155,72 @@ public class MainActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view1 = getLayoutInflater().inflate(R.layout.datos_columna_grid, null);
 
-            TextView name= view1.findViewById(R.id.fruits);
+            name= view1.findViewById(R.id.fruits);
             ImageView image = view1.findViewById(R.id.images);
 
-            name.setText(fruitNames[position]);
-            image.setImageResource(fruitImages[position]);
+//            name.setText(fruitNames[position]);
+//            image.setImageResource(fruitImages[position]);
+            //aqui igual no es majo
+
+                verificar(position);
+                if(datosRecogidos){
+                   //name.setText("Eres simba");
+                   image.setImageResource(R.drawable.banana);
+                }else{
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, "ERROR DE CONEXION", duration);
+                    toast.show();
+                }
+
 
 
             return view1;
         }
+    }
+    public void verificar(int i) {
+
+//verificamos con una llamada a la api si existen y coinciden los datos
+
+        String filtro ="patata";
+
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Call<List<Image>> call = Api_Geopics.getApiService().getImgs(filtro);
+        call.enqueue(new Callback<List<Image>>(){    @Override
+        public void onResponse(Call<List<Image>> call, Response<List<Image>> response) {
+            if(response.isSuccessful()){
+                datosRecogidos = true;
+                List<Image> lista= response.body();
+                for(Image i: lista){
+                    name.setText(i.getNombre());
+                }
+
+                Toast toast = Toast.makeText(context, "Successful", duration);
+                toast.show();
+
+            }
+
+
+
+            Log.d("onResponse ciudad",response.code()+"");
+            if(!response.isSuccessful()) {
+                Toast toast = Toast.makeText(context, "Error, ha habido respuesta pero no la esperada", duration);
+                toast.show();
+                datosRecogidos =false;
+                Log.d("onResponse error",response.code()+"");
+            }
+        }
+
+
+
+            @Override
+            public void onFailure(Call<List<Image>> call, Throwable t) {
+                datosRecogidos =false;
+                Toast toast = Toast.makeText(context,"Mandas mensaje pero no hay respuesta", duration);
+                toast.show();
+                Log.d("onFailure error","Error: " + t.toString() );
+            }});
     }
 //
 

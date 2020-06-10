@@ -1,8 +1,10 @@
 package com.example.primersprint;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -11,7 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.primersprint.ui.Api_Geopics;
 import com.example.primersprint.ui.EditarPerfilActivity;
+import com.example.primersprint.ui.response.PorDefecto;
 import com.google.android.material.navigation.NavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -24,15 +31,24 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PerfilActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private AppBarConfiguration mAppBarConfiguration;
     private TableLayout tableAlbumes;
 
+    TextView nombreUsuario;
+    String nombreAlbum;
+    boolean albumSubido = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+        nombreUsuario = findViewById(R.id.textView2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -116,12 +132,32 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
                 case DialogInterface.BUTTON_POSITIVE:
                     ViewGroup.LayoutParams cp = findViewById(R.id.buttonDefault).getLayoutParams();
                     button.setText(input.getText().toString());
+                    nombreAlbum = button.getText().toString();
                     tableAlbumes.addView(button, cp);
                     button.setOnClickListener(PerfilActivity.this::irA_album);
                     break;
                 case DialogInterface.BUTTON_NEGATIVE:
                     break;
             }
+            if (nombreUsuario.getText().toString().length() > 1 && nombreAlbum.length() > 1) {
+                try {
+                        enviar();
+                        if (albumSubido) {
+                            Log.d("onSubido", "Subido con exito");
+                        } else {
+                            Context context = getApplicationContext();
+                            int duration = Toast.LENGTH_LONG;
+                            Toast toast = Toast.makeText(context, "ERROR AL GUARDAR", duration);
+                            toast.show();
+                        }
+
+                    }catch(Exception e){
+                        System.out.println(e.getMessage());
+                }
+            }
+
+
+
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -151,6 +187,47 @@ public class PerfilActivity extends AppCompatActivity implements NavigationView.
             return true;
         });
 
+    }
+    public void enviar() {
+
+//verificamos con una llamada a la api si existen y coinciden los datos
+        String nombre = nombreUsuario.getText().toString();
+        int numero = 0;
+
+
+
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_LONG;
+        Call<PorDefecto> call = Api_Geopics.getApiService().postAlbum(nombre,nombreAlbum,numero);
+        call.enqueue(new Callback<PorDefecto>(){    @Override
+        public void onResponse(Call<PorDefecto> call, Response<PorDefecto> response) {
+            if(response.isSuccessful()){
+                PorDefecto r= response.body();
+
+
+                Toast toast = Toast.makeText(context, r.getMessage(), duration);
+                toast.show();
+
+            }
+
+
+
+            Log.d("onResponse ciudad",response.code()+"");
+            if(!response.isSuccessful()) {
+                Toast toast = Toast.makeText(context, "Error, ha habido respuesta pero no la esperada", duration);
+                toast.show();
+                albumSubido =false;
+                Log.d("onResponse error",response.code()+"");
+            }
+        }
+
+
+
+            @Override
+            public void onFailure(Call<PorDefecto> call, Throwable t) {
+                albumSubido =false;
+                Log.d("onFailure error","Error: " + t.toString() );
+            }});
     }
 
     public void irA_album(View view){

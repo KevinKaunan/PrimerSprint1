@@ -6,13 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,11 +23,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.primersprint.ui.Api_Geonames;
+import com.example.primersprint.ui.Api_Geopics;
 import com.example.primersprint.ui.response.Geoname;
 import com.example.primersprint.ui.response.Geonames;
+import com.example.primersprint.ui.response.PorDefecto;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,8 +52,13 @@ public class CamaraActivity extends AppCompatActivity {
     TextView latitud;
     TextView longitud;
     TextView direccion;
+    EditText descripcion;
     String lati ;
     String longi ;
+    String encoded;
+    byte[] byteArray;
+    Bitmap bitmap;
+    boolean imagensubida = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +67,7 @@ public class CamaraActivity extends AppCompatActivity {
         buttonAbrirCamara = findViewById(R.id.buttonCamara);
         imageView.setImageResource(R.drawable.ic_image_black_24dp);
         direccion = findViewById(R.id.txtDireccion);
+        descripcion = findViewById(R.id.editTextDescripcion);
 
         // Comprueba el permiso de la cámara en el dispositivo.
         if(ContextCompat.checkSelfPermission(CamaraActivity.this, Manifest.permission.CAMERA )!= PackageManager.PERMISSION_GRANTED){
@@ -75,7 +88,7 @@ public class CamaraActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100){
             assert data != null;
-            Bitmap bitmap = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
+            bitmap = (Bitmap) Objects.requireNonNull(data.getExtras()).get("data");
             imageView.setImageBitmap(bitmap);
             //Localización de la foto, una vez que esta ha sido capturada.
             localizacion();
@@ -85,9 +98,78 @@ public class CamaraActivity extends AppCompatActivity {
     }
 
     public void volverGrid(View view) {
-        Intent volverGrid = new Intent(this, MainActivity.class);
-        startActivity(volverGrid);
+        codificarImagen();
+        if(direccion.getText().toString() !="" && descripcion.getText().toString().length() > 1 && encoded.length() >1){
+            enviar();
+            if(imagensubida){
+                Intent volverGrid = new Intent(this, MainActivity.class);
+                startActivity(volverGrid);
+            }else{
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(context, "ERROR AL GUARDAR", duration);
+                toast.show();
+            }
+
+        }
+
+
     }
+    public void codificarImagen() {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byteArray = byteArrayOutputStream .toByteArray();
+        encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+    }
+    public void decodificarImagen(View view) {
+        byte[] decodedString = Base64.decode(encoded, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        //editText.setText(decodedByte.toString());
+    }
+    public void enviar() {
+
+//verificamos con una llamada a la api si existen y coinciden los datos
+        String nombre = descripcion.getText().toString();
+        String nombreAlbum = "Default";
+        String base64 = encoded;
+        String localizacion = direccion.getText().toString();
+
+
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_LONG;
+        Call<PorDefecto> call = Api_Geopics.getApiService().postImg(nombre,nombreAlbum,base64,localizacion);
+        call.enqueue(new Callback<PorDefecto>(){    @Override
+        public void onResponse(Call<PorDefecto> call, Response<PorDefecto> response) {
+            if(response.isSuccessful()){
+                PorDefecto r= response.body();
+
+
+                Toast toast = Toast.makeText(context, r.getMessage(), duration);
+                toast.show();
+
+            }
+
+
+
+            Log.d("onResponse ciudad",response.code()+"");
+            if(!response.isSuccessful()) {
+                Toast toast = Toast.makeText(context, "Error, ha habido respuesta pero no la esperada", duration);
+                toast.show();
+                imagensubida =false;
+                Log.d("onResponse error",response.code()+"");
+            }
+        }
+
+
+
+            @Override
+            public void onFailure(Call<PorDefecto> call, Throwable t) {
+                imagensubida =false;
+                Log.d("onFailure error","Error: " + t.toString() );
+            }});
+    }
+
 
     //Métodos para gestionar la localización.
 
@@ -144,13 +226,7 @@ public class CamaraActivity extends AppCompatActivity {
 
 
                 Log.d("onResponse ciudad",geonames.toString());
-//                    for(Geonames geo: lista){
-//                        String content  ="";
-//                        content += "Pais" + geo.getCountryName() + "\n";
-//                        content += "Zona" + geo.getToponymName();
-//                        locText.append(content);
-//                    }
-                Log.d("onResponse ciudad","");
+
             }
             if(!response.isSuccessful()) {
                 latitud.setText("codigo" + response.code());
