@@ -98,15 +98,12 @@ public class MainActivity extends AppCompatActivity {
         CustomAdapter customAdapter = new CustomAdapter();
         gridView.setAdapter(customAdapter);
 // Permite visualizar las fotos al clicar en ellas.
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), GridItemActivity.class);
-                intent.putExtra("name", fruitNames[position]);
-                intent.putExtra("image", fruitImages[position]);
-                startActivity(intent);
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(getApplicationContext(), GridItemActivity.class);
+            intent.putExtra("name", fruitNames[position]);
+            intent.putExtra("image", R.drawable.banana);
+            startActivity(intent);
 
-            }
         });
         getSupportActionBar().setTitle("GeoPics");
 
