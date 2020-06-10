@@ -35,6 +35,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     SearchView sv;
     String rico="";
     TextView name;
+    List<Image> lista =new ArrayList<>(); ;
     String[] fruitNames = {"Apple","Orange","strawberry","Melon","Kiwi","Banana"};
     int[] fruitImages = {R.drawable.apple,R.drawable.oranges,R.drawable.strawberry,R.drawable.watermelon,R.drawable.kiwi,R.drawable.banana};
     @Override
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 // Permite visualizar las fotos al clicar en ellas.
         gridView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(getApplicationContext(), GridItemActivity.class);
-            intent.putExtra("name", fruitNames[position]);
+            intent.putExtra("name", lista.get(position).getNombre());
             intent.putExtra("image", R.drawable.banana);
             startActivity(intent);
 
@@ -159,9 +161,9 @@ public class MainActivity extends AppCompatActivity {
 //            image.setImageResource(fruitImages[position]);
             //aqui igual no es majo
 
-                verificar(position);
+                verificar();
                 if(datosRecogidos){
-                   //name.setText("Eres simba");
+                   name.setText(lista.get(position).getNombre());
                    image.setImageResource(R.drawable.banana);
                 }else{
                     Context context = getApplicationContext();
@@ -175,7 +177,8 @@ public class MainActivity extends AppCompatActivity {
             return view1;
         }
     }
-    public void verificar(int i) {
+
+    public void verificar() {
 
 //verificamos con una llamada a la api si existen y coinciden los datos
 
@@ -188,9 +191,11 @@ public class MainActivity extends AppCompatActivity {
         public void onResponse(Call<List<Image>> call, Response<List<Image>> response) {
             if(response.isSuccessful()){
                 datosRecogidos = true;
-                List<Image> lista= response.body();
-                for(Image i: lista){
-                    name.setText(i.getNombre());
+                List<Image> listaImagenes= response.body();
+                for(int i=0;i<listaImagenes.size();i++){
+                    lista.add(listaImagenes.get(i));
+                    Log.d("Items", listaImagenes.get(i).getNombre());
+                    //name.setText(i.getNombre());
                 }
 
                 Toast toast = Toast.makeText(context, "Successful", duration);
@@ -219,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("onFailure error","Error: " + t.toString() );
             }});
     }
-//
 
 
 }
