@@ -163,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
 
                 verificar();
                 if(datosRecogidos){
-                   name.setText(lista.get(position).getNombre());
+//                   name.setText(lista.get(position).getNombre());
+                    name.setText("Foto");
                    image.setImageResource(R.drawable.banana);
                 }else{
                     Context context = getApplicationContext();
