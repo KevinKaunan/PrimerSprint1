@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
 //verificamos con una llamada a la api si existen y coinciden los datos
 
-        String filtro ="patata";
+        String filtro ="almendra";
 
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
